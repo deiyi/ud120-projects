@@ -45,5 +45,5 @@ print "Amount Chris: " , sum(pred)
 
 
 #########################################################
-
+# C:\ProgramData\Anaconda27\python.exe svm_author_id.py
 
