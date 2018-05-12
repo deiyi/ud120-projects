@@ -30,15 +30,39 @@ plt.show()
 
 ### your code here!  name your classifier object clf if you want the 
 ### visualization code (prettyPicture) to show you the decision boundary
+from time import time
 
+def showResults(clf , name, fittingTime , predTime):
+    print "\n" , name
+    print "Accuracy: " , clf.score(features_test, labels_test)
+    print "Fitting time: " , fittingTime
+    print "Prediction time: " , predTime
+    
+    try:
+        prettyPicture(clf, features_test, labels_test).show()
+    except NameError:
+        pass
 
+def algorithmFitPredAndShow(clf , name):
+    t0 = time()
+    clf.fit(features_train, labels_train)
+    t1 = time()
+    pred = clf.predict(features_test)
+    t2 = time()
+    showResults(clf , name , t1 - t0 , t2 - t1)
 
+def kNeighborsClassifierAlgorithm():
+    from sklearn import neighbors   
+    algorithmFitPredAndShow(neighbors.KNeighborsClassifier() , "KNeighborsClassifier") 
+ 
+def adaBoostClassifierAlgorithm():
+    from sklearn import ensemble 
+    algorithmFitPredAndShow(ensemble.AdaBoostClassifier() , "AdaBoostClassifier")
 
+def randomForestClassifierAlgorithm():
+    from sklearn import ensemble 
+    algorithmFitPredAndShow(ensemble.RandomForestClassifier() , "RandomForestClassifier")
 
-
-
-
-try:
-    prettyPicture(clf, features_test, labels_test)
-except NameError:
-    pass
+kNeighborsClassifierAlgorithm()
+adaBoostClassifierAlgorithm()
+randomForestClassifierAlgorithm()
