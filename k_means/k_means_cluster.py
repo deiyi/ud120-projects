@@ -4,7 +4,8 @@
     Skeleton code for k-means clustering mini-project.
 """
 
-
+#########################################################
+# C:\ProgramData\Anaconda27\python.exe
 
 
 import pickle
@@ -17,12 +18,12 @@ from feature_format import featureFormat, targetFeatureSplit
 
 
 
-def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature 1", f2_name="feature 2"):
+def Draw(pred, features, poi, mark_poi=True, name="image.png", f1_name="feature 1", f2_name="feature 2"):
     """ some plotting code designed to help you visualize your clusters """
 
     ### plot each cluster with a different color--add more colors for
     ### drawing more than five clusters
-    colors = ["b", "c", "k", "m", "g"]
+    colors = ["b", "r", "k", "m", "g"]
     for ii, pp in enumerate(pred):
         plt.scatter(features[ii][0], features[ii][1], color = colors[pred[ii]])
 
@@ -31,6 +32,7 @@ def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature
         for ii, pp in enumerate(pred):
             if poi[ii]:
                 plt.scatter(features[ii][0], features[ii][1], color="r", marker="*")
+    
     plt.xlabel(f1_name)
     plt.ylabel(f2_name)
     plt.savefig(name)
@@ -48,6 +50,7 @@ data_dict.pop("TOTAL", 0)
 ### can be any key in the person-level dictionary (salary, director_fees, etc.) 
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
+feature_3 = "total_payments"
 poi  = "poi"
 features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list )
@@ -64,8 +67,10 @@ plt.show()
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
+from sklearn.cluster import KMeans
 
-
+kmeans = KMeans(n_clusters=2, random_state=0).fit(finance_features)
+pred = kmeans.predict(finance_features)
 
 
 ### rename the "name" parameter when you change the number of features
