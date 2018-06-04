@@ -84,6 +84,13 @@ for person in data_dict.keys():
 
 print "Max salary: " , maxStock
 print "Min salary: " , minStock
+
+
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+scaler.fit(finance_features)
+print(scaler.transform([[200000., 1000000., 0.0]]))
+
 ### rename the "name" parameter when you change the number of features
 ### so that the figure gets saved to a different file
 try:
