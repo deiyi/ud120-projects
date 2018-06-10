@@ -22,7 +22,7 @@ from parse_out_email_text import parseOutText
     The data is stored in lists and packed away in pickle files at the end.
 """
 
-
+mailDossier = 'C:/Users/david/Documents/'
 from_sara  = open("from_sara.txt", "r")
 from_chris = open("from_chris.txt", "r")
 
@@ -41,23 +41,26 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
     for path in from_person:
         ### only look at first 200 emails when developing
         ### once everything is working, remove this line to run over full dataset
-        temp_counter += 1
-        if temp_counter < 200:
-            path = os.path.join('..', path[:-1])
-            print path
-            email = open(path, "r")
+        path = os.path.join(mailDossier, path[:-1].replace(".","_"))
+        email = open(path, "r")
 
-            ### use parseOutText to extract the text from the opened email
+        ### use parseOutText to extract the text from the opened email
+        emailText = parseOutText(email)
+        #print emailText 
 
-            ### use str.replace() to remove any instances of the words
-            ### ["sara", "shackleton", "chris", "germani"]
+        ### use str.replace() to remove any instances of the words
+        ### ["sara", "shackleton", "chris", "germani"]
+        for instance in ["sara", "shackleton", "chris", "germani"]:
+            emailText = emailText.replace(instance, "")
+        #print emailText
 
-            ### append the text to word_data
+        ### append the text to word_data
+        word_data.append(emailText)
 
-            ### append a 0 to from_data if email is from Sara, and 1 if email is from Chris
+        ### append a 0 to from_data if email is from Sara, and 1 if email is from Chris
+        from_data.append(name == "chris")
 
-
-            email.close()
+        email.close()
 
 print "emails processed"
 from_sara.close()
@@ -66,10 +69,14 @@ from_chris.close()
 pickle.dump( word_data, open("your_word_data.pkl", "w") )
 pickle.dump( from_data, open("your_email_authors.pkl", "w") )
 
-
+print "word_data[152]:" , word_data[152]
 
 
 
 ### in Part 4, do TfIdf vectorization here
+from sklearn.feature_extraction.text import TfidfVectorizer
+vectorizer = TfidfVectorizer(stop_words="english")
+vectorizer.fit_transform(word_data)
 
-
+print "Cantidad de palabras: ", len(vectorizer.vocabulary_) 
+print "vectorizer.get_feature_names()[34597]: " , vectorizer.get_feature_names()[34597]
