@@ -14,7 +14,7 @@ The dataset used in this example is a preprocessed excerpt of the
 
 """
 
-
+# C:\ProgramData\Anaconda27\python.exe eigenfaces.py
 
 print __doc__
 
@@ -82,6 +82,8 @@ X_test_pca = pca.transform(X_test)
 print "done in %0.3fs" % (time() - t0)
 
 
+print "1st and 2nd components: ", pca.explained_variance_ratio_[0], "\t", pca.explained_variance_ratio_[1]
+
 ###############################################################################
 # Train a SVM classification model
 
@@ -144,3 +146,4 @@ eigenface_titles = ["eigenface %d" % i for i in range(eigenfaces.shape[0])]
 plot_gallery(eigenfaces, eigenface_titles, h, w)
 
 pl.show()
+
